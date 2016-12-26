@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+ * Document   : URL Shortening Service
+ * Author     : josephtinsley
+ * Description: PHP Class, HTML File and txt flat file database used for generating a Short URL Service
+ * http://twitter.com/josephtinsley 
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>Short URL Service</title>
+
+        <!-- Bootstrap -->
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <style>
+            .row{
+                padding-top: 70px;
+            }
+            form{
+                background-color: #f2f2f2;
+                padding: 25px;
+            }
+        </style> 
+        <script>
+            $(function()
+            {
+                $(document).on('click','button',function()
+                {
+                    var url = $("[name=url]").val();
+                    $.post('./scripts.php',{url:url},function(results)
+                    {
+                        var arv = JSON.parse(results);
+                        if(arv.status === 1)
+                        {
+                          $(".short-url").html(arv.url);
+                          $("[name=url]").val("");
+                        }
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3">
+                    <form action="action">
+                        <div class="form-group">
+                            <input type="url" class="form-control" name="url" value=""/>
+                        </div>
+                        <button type="button" class="btn btn-default">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3">
+                    <span class="short-url"></span>
+                </div>
+            </div>
+        </div>    
+    </body>
+</html>
+
+
